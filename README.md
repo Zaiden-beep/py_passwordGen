@@ -2,7 +2,7 @@
 This is a Password generator programme that generates passwords based on a user input
 it generates and reminds you your password
 
-## Dscription of coding practices
+## Description of coding practices
    
    * In this Python project i was tasked to create a password generator application that will generate a random password everytime the code is ran with lenghth of 12 characters. 
    
