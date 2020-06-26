@@ -1,108 +1,87 @@
-import string
-import random
-'''The above modules explained: random will help us use a function that will generate the password randomely
-                                string module contains a collection of string constants 
-'''
 
-#Accesing properties of string
-LETTERS = string.ascii_letters 
-NUMBERS = string.digits  
-PUNCTUATION = string.punctuation    
+import random 
+from tkinter import *
+from tkinter.ttk import *
+  
 
-''' #Test to see actual value of variables
-    print( LETTERS )
-    print( NUMBERS )
-    print( PUNCTUATION )
-    '''
+def low(): 
+    entry.delete(0, END) 
+  
+    
+    length = var1.get() 
+  
+    lower = "abcdefghijklmnopqrstuvwxyz"
+    upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !@#$%^&*()"
+    password = "" 
+  
+    
+    if var.get() == 1: 
+        for i in range(0, length): 
+            password = password + random.choice(lower) 
+        return password 
+  
+    
+    elif var.get() == 0: 
+        for i in range(0, length):
+            password = password + random.choice(upper) 
+        return password 
+  
+    
+    elif var.get() == 3: 
+        for i in range(0, length): 
+            password = password + random.choice(digits) 
+        return password 
+    else: 
+        print("Please choose an option") 
+  
 
-def get_password_length():
-	'''
-	Retrieves the length of a password
-	:returns number <class 'int'>
-	'''
-	length = input("How long do you want your password: ")
-	return int(length)
-
-
-def password_generator(cbl, length=12):
-	'''
-	Generates a random password having the specified length
-	:length -> length of password to be generated. Defaults to 12 
-		if nothing is specified
-	
-	'''
-	# create alphanumerical by fetching string constant
-	printable = fetch_string_constant(cbl)
-
-	# convert printable from string to list and shuffle
-	printable = list(printable)
-	random.shuffle(printable)
-
-	# generates random password
-	random_password = random.choices(printable, k=length)
-
-	# convert generated password to string
-	random_password = ''.join(random_password)
-	return random_password
+def generate(): 
+    password1 = low() 
+    entry.insert(10, password1) 
+  
 
 
-def password_combination_choice():
-	'''
-	# This function Prompt a user to choose password character combination which 
-	could either be digits, letters, punctuation or combibation of 
-	either of all of them.
-	:returns list <class 'list'> of boolean [True, True, False]
-		0 item ---> digits
-		1 item ---> letters
-		2 item ---> punctuation
-	'''
+  
+  
 
-	# retrieve a user's password character combination choice
-	want_digits = input("Want digits ? (True or False) : ")
-	want_letters = input("Want letters ? (True or False): ")
-	want_puncts = input("Want punctuation ? (True or False): ")
+  
 
-	# convert those choices from string to it's right boolean type
-	try:
-		want_digits = eval(want_digits.title())
-		want_puncts = eval(want_puncts.title())
-		want_letters = eval(want_letters.title())
-		return [want_digits, want_letters, want_puncts]
+root = Tk() 
+var = IntVar() 
+var1 = IntVar() 
+  
 
-	except NameError as e:
-		print("Invalid value. Use either True or False")
-		print("Invalidity returns a default, try again to regenerate")
+root.title("Random Password Generator") 
+  
 
-	return [True, True, True]
+Random_password = Label(root, text="Password") 
+Random_password.grid(row=0) 
+entry = Entry(root) 
+entry.grid(row=0, column=1) 
+  
 
+c_label = Label(root, text="Length") 
+c_label.grid(row=1) 
+  
+generate_button = Button(root, text="Generate", command=generate) 
+generate_button.grid(row=0, column=3) 
+  
 
+radio_low = Radiobutton(root, text="Low", variable=var, value=1) 
+radio_low.grid(row=1, column=2, sticky='E') 
+radio_middle = Radiobutton(root, text="Medium", variable=var, value=0) 
+radio_middle.grid(row=1, column=3, sticky='E') 
+radio_strong = Radiobutton(root, text="Strong", variable=var, value=3) 
+radio_strong.grid(row=1, column=4, sticky='E') 
+combo = Combobox(root, textvariable=var1) 
+  
 
-def fetch_string_constant(choice_list):
-	'''
-	Returns a string constant based on users choice_list.
-	string constant can either be digits, letters, punctuation or
-	combination of them.
-	: choice_list --> list <class 'list'> of boolean
-		0 item ---> digits    
-			True to add digits to constant False otherwise
-		1 item ---> letters   
-			True to add letters to constant False otherwise
-		2 item ---> punctuation
-			True to add punctuation to constant False otherwise
-	'''
-	string_constant = ''
-
-	string_constant += NUMBERS if choice_list[0] else ''
-	string_constant += LETTERS if choice_list[1] else ''
-	string_constant += PUNCTUATION if choice_list[2] else ''
-	
-	return string_constant
-
-
-
-if __name__ == '__main__':
-	length = get_password_length()
-	choice_list = password_combination_choice()
-	password = password_generator(choice_list, length)
-
-	print(password)
+combo['values'] = (12, 13, 14, 15, 16, 
+                   17, 18, 19, 20, 21, 22, 23, 24, 25, 
+                   26, 27, 28, 29, 30, 31, 32, "Length") 
+combo.current(0) 
+combo.bind('<<ComboboxSelected>>') 
+combo.grid(column=1, row=1) 
+  
+root.mainloop() 
